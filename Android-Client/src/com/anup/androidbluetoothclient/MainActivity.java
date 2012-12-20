@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -35,6 +36,12 @@ public class MainActivity extends Activity {
 
 		editText = (EditText) findViewById(R.id.edit_msg);
 		textView = (TextView) findViewById(R.id.rcv_msg);
+		
+		if(BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+			Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(intent, RESULT_OK);
+		}
+		
 	}
 
 	@Override
@@ -55,8 +62,9 @@ public class MainActivity extends Activity {
 			Log.d(TAG, "doInBackground");
 			BluetoothSocket clientSocket = null;
 			BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+			mBluetoothAdapter.enable();
 			// Client knows the server MAC address 
-			BluetoothDevice mmDevice = mBluetoothAdapter.getRemoteDevice("28:CF:DA:D6:41:5D");
+			BluetoothDevice mmDevice = mBluetoothAdapter.getRemoteDevice("00:25:00:C3:1C:FE");
 
 			try {
 				// UUID string same used by server 
