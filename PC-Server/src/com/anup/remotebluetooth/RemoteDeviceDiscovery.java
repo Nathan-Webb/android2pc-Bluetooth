@@ -1,4 +1,4 @@
-package com.anup.remotebluetooth;
+package src.com.anup.remotebluetooth;
 
 import java.io.IOException;
 import java.util.Vector;

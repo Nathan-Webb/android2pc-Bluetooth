@@ -1,4 +1,4 @@
-package com.anup.remotebluetooth;
+package src.com.anup.remotebluetooth;
 
 public class Main {
 	public static void main(String[] args) {

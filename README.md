@@ -16,5 +16,5 @@ Currently the program only support transfer of message from phone to pc.
 Compilation Instructions.
 
 1. To compile server code.
-   javac -classpath .:libs/bluecove-2.1.0.jar src/com/anup/remotebluetooth/RFCOMMServer.java
-   java -d32 -classpath .:libs/bluecove-2.1.0.jar src/com/anup/remotebluetooth/RFCOMMServer
+   javac -classpath .:libs/bluecove-2.1.0.jar src/com/anup/remotebluetooth/Main.java
+   java -d32 -classpath .:libs/bluecove-2.1.0.jar src/com/anup/remotebluetooth/Main
