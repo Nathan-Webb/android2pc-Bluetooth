@@ -53,6 +53,7 @@ public class RemoteDeviceDiscovery {
 		};
 	
 		synchronized(inquiryCompletedEvent) {
+			System.out.println("This machine has mac address: " + LocalDevice.getLocalDevice().getBluetoothAddress());
 			boolean started = LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, listener);
 			if(started) {
 				System.out.println("wait for device inquiry to complete...");
