@@ -2,6 +2,7 @@ package com.anup.androidbluetoothclient;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.util.Set;
 import java.util.UUID;
 
 import android.os.AsyncTask;
@@ -26,6 +27,8 @@ public class MainActivity extends Activity {
 
 	String send_msg;
 	String rcv_msg;
+	
+	private static final String UUID_STRING = "00000000-0000-0000-0000-00000000ABCD"; // 32 hex digits
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +40,26 @@ public class MainActivity extends Activity {
 		editText = (EditText) findViewById(R.id.edit_msg);
 		textView = (TextView) findViewById(R.id.rcv_msg);
 		
-		if(BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+		BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+		
+		if(adapter == null) {
+			textView.append("Bluetooth NOT Supported!");
+			return;
+		}
+		
+		// Request user to turn ON Bluetooth
+		if(!adapter.isEnabled()) {
 			Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(intent, RESULT_OK);
 		}
+		
+		// Discover devices and display them
+//		Set<BluetoothDevice> devices = adapter.getBondedDevices();
+//		textView.setText("");
+//		for (BluetoothDevice device: devices) {
+//			textView.append(device.getName().toString());
+//		}
+		
 		
 	}
 
@@ -65,16 +84,19 @@ public class MainActivity extends Activity {
 			mBluetoothAdapter.enable();
 			// Client knows the server MAC address 
 			BluetoothDevice mmDevice = mBluetoothAdapter.getRemoteDevice("00:25:00:C3:1C:FE");
-
+			Log.d(TAG, "got hold of remote device");
 			try {
 				// UUID string same used by server 
-				clientSocket = mmDevice.createRfcommSocketToServiceRecord(UUID
-								.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+				clientSocket = mmDevice.createInsecureRfcommSocketToServiceRecord(UUID
+								.fromString(UUID_STRING));
 
+				Log.d(TAG, "bluetooth socket created");
+				
 				mBluetoothAdapter.cancelDiscovery(); 	// Cancel, discovery slows connection
 
 				clientSocket.connect();
-
+				Log.d(TAG, "connected to server");
+				
 				DataInputStream in = new DataInputStream(clientSocket.getInputStream());
 				DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
 
@@ -82,7 +104,9 @@ public class MainActivity extends Activity {
 				Log.d(TAG, "Message Successfully sent to server");
 				return in.readUTF();            // Read response from server
 			} catch (Exception e) {
-				System.err.println(e.getMessage());
+				
+				Log.d(TAG, "Error creating bluetooth socket");
+				Log.d(TAG, e.getMessage());
 				return "";
 			}
 			
