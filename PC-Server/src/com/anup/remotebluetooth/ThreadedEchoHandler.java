@@ -86,7 +86,7 @@ public class ThreadedEchoHandler extends Thread {
 		byte[] data = null;
 		try {
 			int len = in.read(); // get the message length
-			if(len <= 0) {
+			if(len < 0) {
 				System.out.println(clientName + ": Message Length Error");
 				return null;
 			}
