@@ -91,7 +91,7 @@ public class ThreadedEchoHandler extends Thread {
 				return null;
 			}
 			else {
-				data = new byte[len];
+				data = new byte[in.available()];
 				len = 0;
 				// read the message
 				while(len != data.length) {
