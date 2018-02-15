@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
 
 				out.writeUTF(msg[0]); 			// Send message to server
 				Log.d(TAG, "Message Successfully sent to server");
-				return in.readUTF();            // Read response from server
+				return "done";            // Allows the task to end
 			} catch (Exception e) {
 				
 				Log.d(TAG, "Error creating bluetooth socket");
